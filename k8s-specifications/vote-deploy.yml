@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote-svc
+spec:
+  selector:
+    app: vote
+  ports:
+    - name: vote-svc-port
+      port: 5000 # front of service
+      targetPort: vote-port
+      nodePort: 32000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote-deploy
+  labels:
+    app: vote-deploy
+spec:
+  selector:
+    matchLabels:
+      app: vote
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vote
+    spec:
+      containers:
+        - name: vote
+          image: eyodevops/voting-app-vote:v2
+          ports:
+            - name: vote-port
+              containerPort: 80
