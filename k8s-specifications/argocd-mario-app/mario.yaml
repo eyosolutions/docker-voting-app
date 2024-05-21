@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mario-svc
+  name: mario-svc
+spec:
+  type: ClusterIP
+  ports:
+    - name: mario-svc-port
+      port: 8088
+      targetPort: 80
+  selector:
+    app: mario
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mario-deploy
+  name: mario-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+        - image: sevenajay/mario
+          name: mario
