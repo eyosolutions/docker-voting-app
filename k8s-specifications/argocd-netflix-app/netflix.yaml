@@ -30,5 +30,5 @@ spec:
         app: netflix
     spec:
       containers:
-        - image: sevenajay/netflix
+        - image: chriscloudaz/netflix
           name: netflix
